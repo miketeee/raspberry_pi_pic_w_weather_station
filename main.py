@@ -35,7 +35,7 @@ def open_socket(ip):
     return connection
 
 
-def webpage_json(tmp, hum, prs):
+def webpage_json(tmp, prs, hum):
     json = {
         'temperature': f'{tmp}',
         'humidity': f'{hum}',
