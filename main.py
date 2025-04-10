@@ -1,13 +1,13 @@
 # import modules
-import bme280
+import bme280_float as bme280
 import network
 import socket
 from time import sleep
 from machine import Pin, I2C
 import machine
 
-ssid = 'wifi name'  # Your network name
-password = 'wifi password'  # Your WiFi password
+ssid = 'wifi-name'  # Your network name
+password = 'wifi-password'  # Your WiFi password
 
 # initialize I2C
 i2c = I2C(0, sda=Pin(0), scl=Pin(1), freq=400000)
@@ -48,7 +48,8 @@ def serve(connection):
     # Start a web server
 
     while True:
-        bme = bme280.BME280(i2c=i2c)
+        
+        bme = bme280.BME280(i2c=i2c, address=0x77)
         temp = bme.values[0]
         pressure = bme.values[1]
         humidity = bme.values[2]
@@ -58,6 +59,7 @@ def serve(connection):
         json = webpage_json(temp, pressure, humidity)
         client.send(json)
         client.close()
+        
 
 
 try:
@@ -66,3 +68,5 @@ try:
     serve(connection)
 except KeyboardInterrupt:
     machine.reset()
+
+
